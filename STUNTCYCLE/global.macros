@@ -1,0 +1,263 @@
+;
+;  global.macros.s
+;  STUNTCYCLE
+;
+;  Created by Peter Hirschberg on 10/14/21.
+;Copyright © 2021 Peter Hirschberg. All rights reserved.
+;
+
+
+
+
+        macro
+        absoluteValue
+        bmi isNegative_&SYSCNT
+        bra isPositive_&SYSCNT
+isNegative_&SYSCNT anop
+        eor #$ffff
+        inc a
+isPositive_&SYSCNT anop
+        mend
+
+
+
+        macro
+        addToScore
+        lda cheatMode
+        cmp #0
+        bne addDone_&SYSCNT
+scoreLoop_&SYSCNT anop
+        lda scoreDigits,y
+        cmp #-1
+        bne addContinue_&SYSCNT
+        lda #0
+        sta scoreDigits,y
+addContinue_&SYSCNT anop
+        txa
+        clc
+        adc scoreDigits,y
+        sta scoreDigits,y
+        cmp #10
+        bcs doCarry_&SYSCNT
+        bra addDone_&SYSCNT
+doCarry_&SYSCNT anop
+        sec
+        sbc #10
+        sta scoreDigits,y
+        iny
+        iny
+        tya
+        cmp #10*2
+        bcs addDone_&SYSCNT
+        ldx #1
+        bra scoreLoop_&SYSCNT
+addDone_&SYSCNT anop
+        mend
+
+
+        macro
+        addToLevel
+levelLoop_&SYSCNT anop
+        lda levelDigits,y
+        cmp #-1
+        bne addContinue_&SYSCNT
+        lda #0
+        sta levelDigits,y
+addContinue_&SYSCNT anop
+        txa
+        clc
+        adc levelDigits,y
+        sta levelDigits,y
+        cmp #10
+        bcs doCarry_&SYSCNT
+        bra addDone_&SYSCNT
+doCarry_&SYSCNT anop
+        sec
+        sbc #10
+        sta levelDigits,y
+        iny
+        iny
+        tya
+        cmp #10*2
+        bcs addDone_&SYSCNT
+        ldx #1
+        bra levelLoop_&SYSCNT
+addDone_&SYSCNT anop
+        mend
+
+
+        macro
+        spriteGetDrawAddress
+        lda >spriteY
+        asl a
+        tax
+        lda >screenRowOffsets,x
+        sta >drawAddress
+        lda >spriteX
+        lsr a
+        clc
+        adc >drawAddress
+        clc
+        adc #$2000
+        sta >drawAddress
+        mend
+
+
+        macro
+        shiftedToPixel
+        lsr a
+        lsr a
+        lsr a
+        mend
+
+
+        macro
+        pixelToShifted
+        asl a
+        asl a
+        asl a
+        mend
+
+
+        macro
+        alignXToTile
+        lda pacX
+        shiftedToPixel
+        and #$fff8
+        pixelToShifted
+        sta pacX
+        mend
+
+
+        macro
+        alignYToTile
+        lda pacY
+        shiftedToPixel
+        and #$fff8
+        pixelToShifted
+        sta pacY
+        mend
+
+
+; Thanks to Lucas Scharenbroich for this macro
+        macro
+        CmpAndSwap
+        ldx sort1
+        lda ghostPixelY,x
+        ldx sort2
+        cmp ghostPixelY,x
+        bcc noSwap_&SYSCNT
+        lda sort1
+        stx sort1
+        sta sort2
+noSwap_&SYSCNT anop
+        mend
+
+
+; ORCA/M macros
+
+
+	macro
+&l	long	&a,&b
+	lclb	&i
+	lclb	&m
+&a	amid	&a,1,1
+&m	setb	("&a"="M").or.("&a"="m")
+&i	setb	("&a"="I").or.("&a"="i")
+	aif	c:&b=0,.a
+&b	amid	&b,1,1
+&m	setb	("&b"="M").or.("&b"="m").or.&m
+&i	setb	("&b"="I").or.("&b"="i").or.&i
+.a
+&l	rep	#&m*32+&i*16
+	aif	.not.&m,.b
+	longa on
+.b
+	aif	.not.&i,.c
+	longi on
+.c
+	mend
+
+
+	macro
+&l	short &a,&b
+	lclb	&i
+	lclb	&m
+&a	amid	&a,1,1
+&m	setb	("&a"="M").or.("&a"="m")
+&i	setb	("&a"="I").or.("&a"="i")
+	aif	c:&b=0,.a
+&b	amid	&b,1,1
+&m	setb	("&b"="M").or.("&b"="m").or.&m
+&i	setb	("&b"="I").or.("&b"="i").or.&i
+.a
+&l	sep	#&m*32+&i*16
+	aif	.not.&m,.b
+	longa off
+.b
+	aif	.not.&i,.c
+	longi off
+.c
+	mend
+
+
+;
+; ********************************************
+; Code pulled from Jeremy Rand's "BuGS" game
+; Github: https://github.com/jeremysrand/BuGS
+; ********************************************
+;
+;  Created by Jeremy Rand on 2020-12-16.
+;Copyright © 2020 Jeremy Rand. All rights reserved.
+;
+
+
+; Wait for the DOC to be ready
+        macro
+        _docWait
+_docWait_&SYSCNT anop
+        lda >SOUND_CONTROL_REG
+        bmi _docWait_&SYSCNT
+        mend
+
+
+        macro
+        _writeReg &reg,&value
+        ldy &reg
+        lda &value
+        jsr writeReg
+        mend
+
+
+        macro
+        _spriteHeader
+
+        tdc
+        sta >backupDP
+
+        sei                     ; 2
+        tsc                     ; 2
+        sta >backupStack        ; 5
+        lda >STATE_REGISTER     ; 6 - Direct Page and Stack in Bank 01/
+        ora #$0030              ; 3
+        sta >STATE_REGISTER     ; 6
+        clc                     ; 2
+        tya                     ; 2
+        tcs                     ; 2
+        mend                    ; 30
+
+
+        macro
+        _spriteFooter
+
+        lda >backupDP
+        tcd
+
+        lda >STATE_REGISTER     ; 6
+        and #$ffcf              ; 3
+        sta >STATE_REGISTER     ; 6
+        lda >backupStack        ; 5
+        tcs                     ; 2
+        cli                     ; 2
+        mend                    ; 24
+
