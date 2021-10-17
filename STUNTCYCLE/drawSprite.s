@@ -3683,7 +3683,7 @@ drawSprite20 entry
         tcd
 
         short m
-        lda #$ff
+        lda #$00
         sta 10
         sta 11
         long m
@@ -3705,9 +3705,9 @@ drawSprite21 entry
         tcd
 
         short m
-        lda #$1f
+        lda #$10
         sta 10
-        lda #$ff
+        lda #$00
         sta 11
         long m
 
@@ -3717,7 +3717,7 @@ drawSprite21 entry
         tcd
 
         short m
-        lda #$ff
+        lda #$00
         sta 9
         sta 10
         sta 11
@@ -3729,9 +3729,9 @@ drawSprite21 entry
         tcd
 
         short m
-        lda #$1f
+        lda #$10
         sta 7
-        lda #$ff
+        lda #$00
         sta 8
         sta 9
         sta 10
@@ -3744,9 +3744,9 @@ drawSprite21 entry
         tcd
 
         short m
-        lda #$1f
+        lda #$10
         sta 5
-        lda #$ff
+        lda #$00
         sta 6
         sta 7
         sta 8
@@ -3761,9 +3761,9 @@ drawSprite21 entry
         tcd
 
         short m
-        lda #$1f
+        lda #$10
         sta 3
-        lda #$ff
+        lda #$00
         sta 4
         sta 5
         sta 6
@@ -3780,7 +3780,7 @@ drawSprite21 entry
         tcd
 
         short m
-        lda #$ff
+        lda #$00
         sta 2
         sta 3
         sta 4
@@ -3799,7 +3799,7 @@ drawSprite21 entry
         tcd
 
         short m
-        lda #$ff
+        lda #$00
         sta 0
         sta 1
         sta 2
@@ -3820,7 +3820,7 @@ drawSprite21 entry
         tcd
 
         short m
-        lda #$ff
+        lda #$00
         sta 0
         sta 1
         sta 2
@@ -3852,9 +3852,9 @@ drawSprite22 entry
         tcd
 
         short m
-        lda #$ff
+        lda #$00
         sta 0
-        lda #$f1
+        lda #$01
         sta 1
         long m
 
@@ -3864,7 +3864,7 @@ drawSprite22 entry
         tcd
 
         short m
-        lda #$ff
+        lda #$00
         sta 0
         sta 1
         sta 2
@@ -3876,12 +3876,12 @@ drawSprite22 entry
         tcd
 
         short m
-        lda #$ff
+        lda #$00
         sta 0
         sta 1
         sta 2
         sta 3
-        lda #$f1
+        lda #$01
         sta 4
         long m
 
@@ -3891,14 +3891,14 @@ drawSprite22 entry
         tcd
 
         short m
-        lda #$ff
+        lda #$00
         sta 0
         sta 1
         sta 2
         sta 3
         sta 4
         sta 5
-        lda #$f1
+        lda #$01
         sta 6
         long m
 
@@ -3908,7 +3908,7 @@ drawSprite22 entry
         tcd
 
         short m
-        lda #$ff
+        lda #$00
         sta 0
         sta 1
         sta 2
@@ -3917,7 +3917,7 @@ drawSprite22 entry
         sta 5
         sta 6
         sta 7
-        lda #$f1
+        lda #$01
         sta 8
         long m
 
@@ -3927,7 +3927,7 @@ drawSprite22 entry
         tcd
 
         short m
-        lda #$ff
+        lda #$00
         sta 0
         sta 1
         sta 2
@@ -3946,7 +3946,7 @@ drawSprite22 entry
         tcd
 
         short m
-        lda #$ff
+        lda #$00
         sta 0
         sta 1
         sta 2
@@ -3967,7 +3967,7 @@ drawSprite22 entry
         tcd
 
         short m
-        lda #$ff
+        lda #$00
         sta 0
         sta 1
         sta 2
@@ -3999,7 +3999,7 @@ drawSprite23 entry
         tcd
 
         short m
-        lda #$ff
+        lda #$00
         sta 0
         sta 1
         long m
