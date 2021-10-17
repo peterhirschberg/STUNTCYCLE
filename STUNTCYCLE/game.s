@@ -10,7 +10,7 @@
 
 game start
         using spritesData
-    
+        using groundData
     
 baseInit entry
 
@@ -21,6 +21,8 @@ baseInit entry
         jsr clearScreen
         
         jsr drawGround
+        
+        jsr drawRamps
         
         rtl
         
@@ -36,33 +38,12 @@ runGameTick entry
 gameLoop anop
 
         jsr waitForVbl
-        jsr waitForVbl
-        jsr waitForVbl
-
-        lda #100
-        sta spriteX
-        lda #120-16
-        sta spriteY
         
-        jsl eraseSprite1
-        jsl drawSprite0
-
+        jsr runBike
         
-        jsr waitForVbl
-        jsr waitForVbl
-        jsr waitForVbl
-
-        lda #100
-        sta spriteX
-        lda #120-16
-        sta spriteY
-        
-        jsl eraseSprite0
-        jsl drawSprite1
-
+        jsr drawBike
         
         brl gameLoop
-
 
         rtl
     

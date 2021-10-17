@@ -10,26 +10,30 @@
 
 ground start
         using globalData
+        using groundData
     
     
 drawGround entry
 
 
-        lda #50
+        ldx #0
+        lda groundLevels,x
         asl a
         tax
         lda screenRowOffsets,x
         tax
         jsr drawGroundLine
 
-        lda #120
+        ldx #2
+        lda groundLevels,x
         asl a
         tax
         lda screenRowOffsets,x
         tax
         jsr drawGroundLine
 
-        lda #190
+        ldx #4
+        lda groundLevels,x
         asl a
         tax
         lda screenRowOffsets,x
@@ -61,7 +65,15 @@ groundLoopDone anop
 
         rts
         
-        
-
     
+        end
+
+
+groundData data
+
+groundLevels anop
+        dc i2'65'
+        dc i2'125'
+        dc i2'185'
+
         end

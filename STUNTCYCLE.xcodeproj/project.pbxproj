@@ -33,6 +33,7 @@
 		D08A2525271AFCBF00A5A83A /* screen.s in Sources */ = {isa = PBXBuildFile; fileRef = D08A2524271AFCBF00A5A83A /* screen.s */; };
 		D08A2527271BA24C00A5A83A /* bike.s in Sources */ = {isa = PBXBuildFile; fileRef = D08A2526271BA24C00A5A83A /* bike.s */; };
 		D08A2529271BA25F00A5A83A /* ground.s in Sources */ = {isa = PBXBuildFile; fileRef = D08A2528271BA25F00A5A83A /* ground.s */; };
+		D08A252B271C31AC00A5A83A /* ramps.s in Sources */ = {isa = PBXBuildFile; fileRef = D08A252A271C31AC00A5A83A /* ramps.s */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -93,6 +94,7 @@
 		D08A2524271AFCBF00A5A83A /* screen.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = screen.s; sourceTree = "<group>"; };
 		D08A2526271BA24C00A5A83A /* bike.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = bike.s; sourceTree = "<group>"; };
 		D08A2528271BA25F00A5A83A /* ground.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = ground.s; sourceTree = "<group>"; };
+		D08A252A271C31AC00A5A83A /* ramps.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = ramps.s; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,15 +137,16 @@
 				D08A24E927178A2F00A5A83A /* make */,
 				D08A250227178A3000A5A83A /* Supporting Files */,
 				D08A25162718E5AE00A5A83A /* sprites.s */,
+				D08A251A2718E77C00A5A83A /* game.s */,
 				D08A251C2718E7D800A5A83A /* global.macros */,
 				D08A25182718E5DD00A5A83A /* drawSprite.s */,
-				D08A251A2718E77C00A5A83A /* game.s */,
 				D08A251E2718E95B00A5A83A /* globals.s */,
 				D08A2520271AF22500A5A83A /* hardware.s */,
 				D08A2522271AF34D00A5A83A /* color.s */,
 				D08A2524271AFCBF00A5A83A /* screen.s */,
 				D08A2526271BA24C00A5A83A /* bike.s */,
 				D08A2528271BA25F00A5A83A /* ground.s */,
+				D08A252A271C31AC00A5A83A /* ramps.s */,
 			);
 			path = STUNTCYCLE;
 			sourceTree = "<group>";
@@ -315,6 +318,7 @@
 				D08A25192718E5DD00A5A83A /* drawSprite.s in Sources */,
 				D08A2529271BA25F00A5A83A /* ground.s in Sources */,
 				D08A251F2718E95B00A5A83A /* globals.s in Sources */,
+				D08A252B271C31AC00A5A83A /* ramps.s in Sources */,
 				D08A251D2718E7D800A5A83A /* global.macros in Sources */,
 				D08A24E327178A2E00A5A83A /* main.c in Sources */,
 			);
