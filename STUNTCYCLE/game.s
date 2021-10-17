@@ -20,6 +20,8 @@ baseInit entry
 
         jsr clearScreen
         
+        jsr drawGround
+        
         rtl
         
         
@@ -36,11 +38,10 @@ gameLoop anop
         jsr waitForVbl
         jsr waitForVbl
         jsr waitForVbl
-        jsr waitForVbl
 
         lda #100
         sta spriteX
-        lda #100
+        lda #120-16
         sta spriteY
         
         jsl eraseSprite1
@@ -50,11 +51,10 @@ gameLoop anop
         jsr waitForVbl
         jsr waitForVbl
         jsr waitForVbl
-        jsr waitForVbl
 
         lda #100
         sta spriteX
-        lda #100
+        lda #120-16
         sta spriteY
         
         jsl eraseSprite0
