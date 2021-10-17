@@ -7,6 +7,9 @@
 ;
 
         case on
+        mcopy global.macros
+        keep global
+
 
 bike start
         using spritesData
@@ -24,35 +27,43 @@ runBike entry
         
         lda bikeRow
         sta bikeRowOld
+        
+        lda bikeSpeed
+        clc
+        adc #50
+        sta bikeSpeed
 
         jsr animateBike
         
         lda bikeRow
         cmp #1
         bne goRight
-
-        dec bikePosX
-        dec bikePosX
-        dec bikePosX
-        dec bikePosX
+        
+        lda bikePosX
+        sec
+        sbc bikeSpeed
+        
         lda #10
+        pixelToShifted
         cmp bikePosX
         bcs resetBikePosToLeft
         rts
         
 goRight anop
 
-        inc bikePosX
-        inc bikePosX
-        inc bikePosX
-        inc bikePosX
         lda bikePosX
+        clc
+        adc bikeSpeed
+
+        lda bikePosX
+        shiftedToPixel
         cmp #290
         bcs resetBikePosToRight
         rts
         
 resetBikePosToLeft anop
         lda #10
+        pixelToShifted
         sta bikePosX
         inc bikeRow
         lda bikeRow
@@ -62,6 +73,7 @@ resetBikePosToLeft anop
 
 resetBikePosToRight anop
         lda #290
+        pixelToShifted
         sta bikePosX
         inc bikeRow
         lda bikeRow
@@ -71,9 +83,12 @@ resetBikePosToRight anop
         
 resetToTop anop
         lda #10
+        pixelToShifted
         sta bikePosX
         lda #0
         sta bikeRow
+        lda #100
+        sta bikeSpeed
         rts
         
         
@@ -104,6 +119,7 @@ drawBike entry
 
 
         lda bikePosX
+        shiftedToPixel
         sta spriteX
         lda bikeRow
         asl a
@@ -113,8 +129,13 @@ drawBike entry
         sbc #16
         sta spriteY
 
-        jsr drawBikeState
-
+        lda bikeRow
+        cmp #1
+        beq drawLeft
+        jsr drawBikeStateRight
+        rts
+drawLeft anop
+        jsr drawBikeStateLeft
         rts
 
 
@@ -131,30 +152,58 @@ eraseBike entry
         sbc #16
         sta spriteY
 
-        jsr eraseBikeState
-
+        lda bikeRowOld
+        cmp #1
+        beq eraseLeft
+        jsr eraseBikeStateRight
+        rts
+eraseLeft anop
+        jsr eraseBikeStateLeft
         rts
         
 
-eraseBikeState entry
+eraseBikeStateRight entry
         lda bikeAnimationStateOld
         cmp #0
-        bne eraseAnimationState1
+        bne eraseAnimationStateRight1
         jsl eraseSprite2
         rts
-eraseAnimationState1 anop
+eraseAnimationStateRight1 anop
         jsl eraseSprite3
         rts
 
         
-drawBikeState entry
+eraseBikeStateLeft entry
+        lda bikeAnimationStateOld
+        cmp #0
+        bne eraseAnimationStateLeft1
+        jsl eraseSprite0
+        rts
+eraseAnimationStateLeft1 anop
+        jsl eraseSprite1
+        rts
+        
+        
+        
+drawBikeStateRight entry
         lda bikeAnimationState
         cmp #0
-        bne drawAnimationState1
+        bne drawAnimationStateRight1
         jsl drawSprite2
         rts
-drawAnimationState1 anop
+drawAnimationStateRight1 anop
         jsl drawSprite3
+        rts
+        
+        
+drawBikeStateLeft entry
+        lda bikeAnimationState
+        cmp #0
+        bne drawAnimationStateLeft1
+        jsl drawSprite0
+        rts
+drawAnimationStateLeft1 anop
+        jsl drawSprite1
         rts
         
         
@@ -164,9 +213,9 @@ drawAnimationState1 anop
 
 bikeData data
     
-    
+bikeSpeed dc i2'100'
 bikeState dc i2'0'
-bikePosX dc i2'10'
+bikePosX dc i2'20'
 bikePosXOld dc i2'0'
 bikeRow dc i2'0'
 bikeRowOld dc i2'0'
