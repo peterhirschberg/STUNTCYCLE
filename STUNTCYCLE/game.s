@@ -41,6 +41,7 @@ gameLoop anop
         
         jsr runBike
         
+        jsr eraseBike
         jsr drawBike
         
         brl gameLoop
