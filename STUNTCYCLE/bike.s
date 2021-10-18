@@ -28,10 +28,22 @@ runBike entry
         lda bikeRow
         sta bikeRowOld
         
+        dec bikeSpeedTimer
+        lda bikeSpeedTimer
+        bmi adjustBikeSpeed
+        bra dontAdjustBikeSpeed
+        
+adjustBikeSpeed anop
+
+        lda #16
+        sta bikeSpeedTimer
+        
         lda bikeSpeed
         clc
-        adc #50
+        adc #1
         sta bikeSpeed
+        
+dontAdjustBikeSpeed anop
 
         jsr animateBike
         
@@ -42,6 +54,7 @@ runBike entry
         lda bikePosX
         sec
         sbc bikeSpeed
+        sta bikePosX
         
         lda #10
         pixelToShifted
@@ -54,6 +67,7 @@ goRight anop
         lda bikePosX
         clc
         adc bikeSpeed
+        sta bikePosX
 
         lda bikePosX
         shiftedToPixel
@@ -82,12 +96,12 @@ resetBikePosToRight anop
         rts
         
 resetToTop anop
-        lda #10
+        lda #0
         pixelToShifted
         sta bikePosX
         lda #0
         sta bikeRow
-        lda #100
+        lda #10
         sta bikeSpeed
         rts
         
@@ -143,6 +157,7 @@ drawLeft anop
 eraseBike entry
 
         lda bikePosXOld
+        shiftedToPixel
         sta spriteX
         lda bikeRowOld
         asl a
@@ -213,9 +228,10 @@ drawAnimationStateLeft1 anop
 
 bikeData data
     
-bikeSpeed dc i2'100'
+bikeSpeedTimer dc i2'0'
+bikeSpeed dc i2'10'
 bikeState dc i2'0'
-bikePosX dc i2'20'
+bikePosX dc i2'0'
 bikePosXOld dc i2'0'
 bikeRow dc i2'0'
 bikeRowOld dc i2'0'
