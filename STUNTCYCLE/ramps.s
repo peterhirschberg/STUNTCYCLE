@@ -102,11 +102,9 @@ busDone anop
         sbc #16
         sta spriteY
         jsl drawSprite23
-        
-
 
         rts
-    
+
     
 busPos dc i2'0'
     
@@ -118,6 +116,69 @@ rampData data
 numBuses dc i2'4'
     
 leftRampPos dc i2'20'
+leftRampRight dc i2'68'
+
 rightRampPos dc i2'140'
-    
+rightRampRight dc i2'188' ; FIX ME
+
+leftRampHeight anop
+
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+
+        dc i2'1'
+        dc i2'1'
+        dc i2'1'
+        dc i2'1'
+
+        dc i2'2'
+        dc i2'2'
+        dc i2'2'
+        dc i2'2'
+
+        dc i2'3'
+        dc i2'3'
+        dc i2'3'
+
+        dc i2'4'
+        dc i2'4'
+        dc i2'4'
+        dc i2'4'
+
+        dc i2'5'
+        dc i2'5'
+        dc i2'5'
+        dc i2'5'
+
+        dc i2'6'
+        dc i2'6'
+        dc i2'6'
+
+        dc i2'7'
+        dc i2'7'
+        dc i2'7'
+
+        dc i2'8'
+        dc i2'8'
+        dc i2'8'
+
+        
         end
