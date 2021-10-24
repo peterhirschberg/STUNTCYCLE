@@ -25,9 +25,17 @@ runBike entry
         
         lda bikePosX
         sta bikePosXOld
-        
+
+        lda bikePosY
+        sta bikePosYOld
+
         lda bikeRow
         sta bikeRowOld
+
+        lda bikeIsAirborne
+        sta bikeIsAirborneOld
+        
+        jsr setBikeYPos
         
         dec bikeSpeedTimer
         lda bikeSpeedTimer
@@ -39,10 +47,10 @@ adjustBikeSpeed anop
         lda #16
         sta bikeSpeedTimer
         
-        lda bikeSpeed
-        clc
-        adc #1
-        sta bikeSpeed
+;        lda bikeSpeed
+;        clc
+;        adc #1
+;        sta bikeSpeed
         
 dontAdjustBikeSpeed anop
 
@@ -116,6 +124,7 @@ resetToTop anop
         sta bikeRow
         lda #10
         sta bikeSpeed
+        jsr setBikeYPos
         rts
         
         
@@ -142,33 +151,57 @@ animationStateToZero anop
         rts
         
         
-drawBike entry
+setBikeYPos entry
 
-
-        lda bikePosX
-        shiftedToPixel
-        sta spriteX
         lda bikeRow
         asl a
         tax
         lda groundData,x
         sec
         sbc #16
-        sta spriteY
-        
+        pixelToShifted
+        sta bikePosY
         
         lda bikeIsAirborne
         cmp #0
-        beq drawBikeNotAirborne
-        
-        lda spriteY
+        beq bikeNotAirborne
+
+
+        lda bikePosX
+        shiftedToPixel
         sec
-        sbc #8
+        sbc leftRampPos
+        asl a
+        tax
+        lda leftRampHeight,x
+        sta temp
+
+        lda bikePosY
+        shiftedToPixel
+
+
+
+        sec
+        sbc temp
+
+
+        pixelToShifted
+        sta bikePosY
+        
+bikeNotAirborne anop
+
+        rts
+        
+        
+drawBike entry
+
+        lda bikePosX
+        shiftedToPixel
+        sta spriteX
+        lda bikePosY
+        shiftedToPixel
         sta spriteY
         
-        
-drawBikeNotAirborne anop
-
         lda bikeRow
         cmp #1
         beq drawLeft
@@ -185,27 +218,9 @@ eraseBike entry
         lda bikePosXOld
         shiftedToPixel
         sta spriteX
-        lda bikeRowOld
-        asl a
-        tax
-        lda groundData,x
-        sec
-        sbc #16
+        lda bikePosYOld
+        shiftedToPixel
         sta spriteY
-        
-        
-        lda bikeIsAirborne
-        cmp #0
-        beq eraseBikeNotAirborne
-        
-        lda spriteY
-        sec
-        sbc #8
-        sta spriteY
-        
-        
-eraseBikeNotAirborne anop
-
 
         lda bikeRowOld
         cmp #1
@@ -218,6 +233,18 @@ eraseLeft anop
         
 
 eraseBikeStateRight entry
+        lda bikeIsAirborneOld
+        cmp #0
+        beq eraseNotAirborne
+        lda bikeAnimationStateOld
+        cmp #0
+        bne eraseAnimationStateRight2
+        jsl eraseSprite6
+        rts
+eraseAnimationStateRight2 anop
+        jsl eraseSprite7
+        rts
+eraseNotAirborne anop
         lda bikeAnimationStateOld
         cmp #0
         bne eraseAnimationStateRight1
@@ -227,7 +254,6 @@ eraseAnimationStateRight1 anop
         jsl eraseSprite3
         rts
 
-        
 eraseBikeStateLeft entry
         lda bikeAnimationStateOld
         cmp #0
@@ -241,6 +267,18 @@ eraseAnimationStateLeft1 anop
         
         
 drawBikeStateRight entry
+        lda bikeIsAirborne
+        cmp #0
+        beq drawNotAirborne
+        lda bikeAnimationState
+        cmp #0
+        bne drawAnimationStateRight2
+        jsl drawSprite6
+        rts
+drawAnimationStateRight2 anop
+        jsl drawSprite7
+        rts
+drawNotAirborne anop
         lda bikeAnimationState
         cmp #0
         bne drawAnimationStateRight1
@@ -276,7 +314,7 @@ onBottomRow1 anop
         lda bikePosX
         shiftedToPixel
         clc
-        adc #24
+        adc #4
         sta temp
         cmp leftRampPos
         bcs leftCheckPasses
@@ -309,7 +347,9 @@ bikeSpeedTimer dc i2'0'
 bikeSpeed dc i2'10'
 bikeState dc i2'0'
 bikePosX dc i2'0'
+bikePosY dc i2'0'
 bikePosXOld dc i2'0'
+bikePosYOld dc i2'0'
 bikeRow dc i2'0'
 bikeRowOld dc i2'0'
 bikeAnimationTimer dc i2'0'
@@ -317,6 +357,6 @@ bikeAnimationState dc i2'0'
 bikeAnimationStateOld dc i2'0'
 
 bikeIsAirborne dc i2'0'
-
+bikeIsAirborneOld dc i2'0'
     
         end
