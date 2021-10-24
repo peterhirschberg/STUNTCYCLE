@@ -32,6 +32,9 @@ runBike entry
         lda bikeRow
         sta bikeRowOld
 
+        lda bikeIsOverLeftRamp
+        sta bikeIsOverLeftRampOld
+
         lda bikeIsAirborne
         sta bikeIsAirborneOld
         
@@ -47,10 +50,10 @@ adjustBikeSpeed anop
         lda #16
         sta bikeSpeedTimer
         
-;        lda bikeSpeed
-;        clc
-;        adc #1
-;        sta bikeSpeed
+        lda bikeSpeed
+        clc
+        adc #1
+        sta bikeSpeed
         
 dontAdjustBikeSpeed anop
 
@@ -81,6 +84,11 @@ goRight anop
         sta bikeIsAirborne
         
         jsr isOverLeftRamp
+        sta bikeIsOverLeftRamp
+
+        jsr setSpeedY
+
+        lda bikeIsOverLeftRamp
         cmp #0
         beq notOverLeftRamp
 
@@ -178,20 +186,43 @@ setBikeYPos entry
 
         lda bikePosY
         shiftedToPixel
-
-
-
         sec
         sbc temp
-
-
         pixelToShifted
         sta bikePosY
         
 bikeNotAirborne anop
 
         rts
-        
+
+
+setSpeedY entry
+
+        lda bikeIsOverLeftRamp
+        cmp #0
+        beq setSpeedYCheck1Passes
+        bra notJustLeftRamp
+
+setSpeedYCheck1Passes anop
+
+        lda bikeIsOverLeftRampOld
+        cmp #1
+        beq setSpeedYCheck2Passes
+        bra notJustLeftRamp
+
+setSpeedYCheck2Passes anop
+
+        lda #2
+        sta speedY
+
+        rts
+
+notJustLeftRamp anop
+
+        rts
+
+
+
         
 drawBike entry
 
@@ -356,7 +387,12 @@ bikeAnimationTimer dc i2'0'
 bikeAnimationState dc i2'0'
 bikeAnimationStateOld dc i2'0'
 
+bikeIsOverLeftRamp dc i2'0'
+bikeIsOverLeftRampOld dc i2'0'
+
 bikeIsAirborne dc i2'0'
 bikeIsAirborneOld dc i2'0'
+
+speedY dc i2'0'
     
         end

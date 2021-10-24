@@ -121,6 +121,29 @@ leftRampRight dc i2'68'
 rightRampPos dc i2'140'
 rightRampRight dc i2'188' ; FIX ME
 
+
+foo anop
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+        dc i2'0'
+
 leftRampHeight anop
 
         dc i2'0'
@@ -134,15 +157,6 @@ leftRampHeight anop
         dc i2'0'
         dc i2'0'
         dc i2'0'
-        dc i2'0'
-        dc i2'0'
-        dc i2'0'
-        dc i2'0'
-        dc i2'0'
-        dc i2'0'
-        dc i2'0'
-        dc i2'0'
-        dc i2'0'
 
         dc i2'1'
         dc i2'1'
@@ -180,5 +194,26 @@ leftRampHeight anop
         dc i2'8'
         dc i2'8'
 
-        
+        dc i2'8'
+        dc i2'8'
+        dc i2'8'
+        dc i2'8'
+        dc i2'8'
+        dc i2'8'
+        dc i2'8'
+        dc i2'8'
+        dc i2'8'
+        dc i2'8'
+        dc i2'8'
+        dc i2'8'
+        dc i2'8'
+        dc i2'8'
+        dc i2'8'
+        dc i2'8'
+        dc i2'8'
+        dc i2'8'
+        dc i2'8'
+        dc i2'8'
+        dc i2'8'
+
         end
